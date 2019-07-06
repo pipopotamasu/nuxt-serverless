@@ -1,3 +1,4 @@
+# サービス名
 service: nuxt-serverless
 
 plugins:
@@ -5,6 +6,7 @@ plugins:
   - serverless-apigw-binary
   - serverless-dotenv-plugin
 
+# 依存パッケージの設定
 package:
   individually: true
   excludeDevDependencies: true
@@ -13,14 +15,15 @@ provider:
   name: aws
   runtime: nodejs10.x
   stage: ${opt:stage, 'dev'}
-  region: us-east-1
+  region: ap-northeast-1
 
+# plugin周りの設定
 custom:
   #######################################
   # Unique ID included in resource names.
   # Replace it with a random value for every first distribution.
   # https://www.random.org/strings/?num=1&len=6&digits=on&loweralpha=on&unique=on&format=html&rnd=new
-  stackId: lxpmd3
+  stackId: pipopotamasu
   #######################################
 
   buckets:
@@ -35,6 +38,7 @@ custom:
     types:
       - '*/*'
 
+# lambdaの設定
 functions:
   renderer:
     name: ${self:service}-${self:custom.stackId}-${self:provider.stage}-renderer
@@ -87,6 +91,7 @@ functions:
               paths:
                 proxy: true
 
+# S3やdynamoDBと行った外部リソースの設定
 resources:
   Resources:
     ClientAssetsBucket:
